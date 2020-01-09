@@ -10,9 +10,6 @@ import Calendar from './pages/calendar/calendar';
 
 import './App.css';
 
-const hello = new Date('2020-01-07T10:30:00')
-const bye = hello.getTime()
-
 class App extends React.Component {
 
   dragRef = React.createRef()
@@ -41,7 +38,7 @@ class App extends React.Component {
       //changing the start date to be pushed back 5 hours behind because the start day given was always 5 hours ahead.
       const date = new Date(item.fcSeg.eventRange.range.start)
       const unix = date.getTime() + 18000000
-      console.log('thisis new state', newState)
+      console.log('thisis new state', unix)
       // console.log('end time', item.fcSeg.eventRange.range.end)
       //filter out items with same id.
 
@@ -63,7 +60,7 @@ class App extends React.Component {
         newerState.push({title: `${item.fcSeg.eventRange.def.title}`, start: `${this.getDate(date)}`, end:item.fcSeg.eventRange.range.end, id: uniqid() })
       }
       else {
-        newerState.push({title: `${item.fcSeg.eventRange.def.title}`, start: `${this.getDate(date, this.state.events[indexOfItem].start)}`, end:item.fcSeg.eventRange.range.end, id: uniqid() })
+        newerState.push({title: `${item.fcSeg.eventRange.def.title}`, start: `${this.getDate(date, this.state.events[indexOfItem].start)}`, end:item.fcSeg.eventRange.range.end, id: uniqid()})
       }
 
 
@@ -88,35 +85,58 @@ class App extends React.Component {
     this.setState({
       events: newerState
     })
-
   }
 
   getDate = (newDate, oldDate) => {
-    console.log('THIS IS OLD DATe', oldDate)
-    const newYear = newDate.getFullYear()
-    const newDay = newDate.getDate() + 1
-    const newestDay = []
-    if(newDay < 10) {
-      newestDay.push(`0` + newDay)
-    }
-    else {
-      newestDay.push(`${newDay}`)
-    }
-    const newMonth = "0" + (newDate.getMonth() + 1)
+    //adding one day to the date given because the node start day bugs and gives it one day earlier.
+    //instead of adding one day to the day of this daychanged the date back to unix because when adding 
+    //a day on the last day of the month or the first day of the month, it wouldn't stick on the calendar.
+    const time = newDate.getTime() + 86400000;
+    const addedDay = new Date(time);
+    const month = "0" + (addedDay.getMonth() + 1);
+    const year = addedDay.getFullYear();
+    const day = "0" + addedDay.getDate();
+
+    //if this item already existed and had a time, to keep the same time as it was before I needed to find a way
+    //to keep the time without altering it because the new date I would always get from the start in the node was 7pm.
     if (oldDate) {
       const newTimeArray = oldDate.split('T');
-      const newFullDate = `${newYear}` + "-" + newMonth + "-" + newestDay[0] + "T" + newTimeArray[1]
-      // console.log(newFullDate)
-      return newFullDate
+      console.log('this is the old date', oldDate)
+      const fullDate = `${year}` + "-" + month.substr(-2) + "-" + day.substr(-2) + "T" + newTimeArray[1];
+      return fullDate
     }
     else {
-      const newFullDate = `${newYear}` + "-" + newMonth + "-" + newestDay[0] + "T" + "00:00:00"
-      // console.log(newFullDate)
-      return newFullDate
+      const fullDate = `${year}` + "-" + month.substr(-2) + "-" + day.substr(-2) + "T" + "00:00:00";
+      return fullDate
     }
-
-    // console.log('oldarray', newTimeArray)
   }
+
+  // getDate = (newDate, oldDate) => {
+  //   console.log('THIS IS OLD DATe', oldDate)
+  //   const newYear = newDate.getFullYear()
+  //   const newDay = newDate.getDate() + 1
+  //   const newestDay = []
+  //   if(newDay < 10) {
+  //     newestDay.push(`0` + newDay)
+  //   }
+  //   else {
+  //     newestDay.push(`${newDay}`)
+  //   }
+  //   const newMonth = "0" + (newDate.getMonth() + 1)
+  //   if (oldDate) {
+  //     const newTimeArray = oldDate.split('T');
+  //     const newFullDate = `${newYear}` + "-" + newMonth + "-" + newestDay[0] + "T" + newTimeArray[1]
+  //     // console.log(newFullDate)
+  //     return newFullDate
+  //   }
+  //   else {
+  //     const newFullDate = `${newYear}` + "-" + newMonth + "-" + newestDay[0] + "T" + "00:00:00"
+  //     // console.log(newFullDate)
+  //     return newFullDate
+  //   }
+
+  //   // console.log('oldarray', newTimeArray)
+  // }
 
 
   render() {
