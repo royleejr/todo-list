@@ -1,0 +1,56 @@
+
+#calendar-container {
+  position: relative;
+  z-index: 1;
+  margin-left: 200px;
+}
+
+#calendar {
+  max-width: 1000px;
+  // height: 100vh;
+  width: 100%;
+  margin: 0px auto;
+  margin-left: 50px;
+}
+
+.button {
+  height: 200px;
+  width: 200px;
+}
+
+#draggable-el {
+  background-color: red;
+  width: 100px;
+}
+
+#external-events {
+  position: relative;
+  z-index: 2;
+  top: 20px;
+  left: 20px;
+  width: 150px;
+  padding: 0 10px;
+  border: 1px solid #ccc;
+  background: #eee;
+}
+
+#external-events .fc-event {
+  margin: 1em 0;
+  cursor: move;
+}
+
+#external-events {
+  // left: 280px !important;
+  position: relative !important;
+  height: 805px !important;
+  margin-bottom: 40px !important;
+  padding-top: 0px !important;
+  margin-left: 40px !important;
+}
+
+.parent {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

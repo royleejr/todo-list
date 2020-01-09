@@ -1,0 +1,35 @@
+@import '../../styles/variables.scss';
+
+
+.nav {
+  width: 18vw;
+  height: 100vh;
+  background-color: $blue;
+  
+
+  &__container {
+    margin-top: 40%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    &-link {
+      color: white;
+      text-decoration: none;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+
+      &-img {
+        height: 25px;
+        width: 25px;
+        margin-right: 20px;
+
+      }
+
+      &-title {
+
+      }
+    }
+  }
+}
