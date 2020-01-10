@@ -67,7 +67,7 @@ export default class Dashboard extends React.Component {
   render() {
     return (
       <section className="dashboard">
-        <button className="dashboard__open-button" onClick={this.openModal}>+Add Project</button>
+        <button className="dashboard__open-button" onClick={this.openModal}>+ Add Event</button>
         <Modal
           isOpen={this.state.modalIsOpen}
           onAfterOpen={this.afterOpenModal}

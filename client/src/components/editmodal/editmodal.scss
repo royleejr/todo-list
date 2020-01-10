@@ -1,0 +1,77 @@
+@import '../../styles/variables.scss';
+
+
+.edit-modal {
+  &__close {
+    cursor: pointer;
+    position: absolute;
+    top: 40px;
+    right: 40px;
+    width: 30px;
+  }
+  &__heading {
+    font-size: 30px;
+  }
+  &__form {
+    display: flex;
+    flex-wrap: wrap;
+    &-item {
+      display: flex;
+      flex-direction: column;
+      width: calc(50% - 20px);
+      margin-bottom: 20px;
+      &:nth-child(odd) {
+        margin-right: 20px;
+      }
+      &:nth-child(even) {
+        margin-left: 20px;
+      }
+    }
+    &-label {
+      display: block;
+      color: grey;
+      font-size: 12px;
+      margin-bottom: 4px;
+    }
+    &-input {
+      height: 25px;
+      font-size: 15px;
+      background-color: $grey;
+      padding: 5px;
+      border: 1px solid lightgrey;
+      border-radius: 2px;
+      outline: none;
+    }
+    &-radio {
+      font-size: 15px;
+      margin: 0 40px 0 5px;
+    }
+    &-button {
+      cursor: pointer;
+      width: 150px;
+      height: 40px;
+      color: white;
+      font-weight: bolder;
+      font-size: 15px;
+      background-color: $blue;
+      padding: 0;
+      border: none;
+      border-radius: 6px;
+      margin-top: 80px;
+      margin-left: auto;
+      &:hover {
+        background-color: $dark-blue;
+      }
+    }
+  }
+}
+
+.ReactModal {
+  &__Overlay {
+    background: rgba(0, 0, 0, 0.75) !important;
+  }
+  &__Content {
+    width: 500px !important;
+    padding: 50px 40px !important;
+  }
+}
