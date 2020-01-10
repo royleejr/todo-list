@@ -38,6 +38,31 @@ export default class Dashboard extends React.Component {
   closeModal = () => {
     this.setState({modalIsOpen: false});
   }
+
+  getToday = () => {
+    const today = new Date()
+    
+
+    const todayArray = []
+    this.props.events.map(item => {
+      const startDay = new Date(item.start)
+      const endDay = new Date(item.end)
+
+      if (today >= startDay && today <= endDay) {
+        todayArray.push(item)
+      }
+    })
+
+    //getting todays day and the long version of the month to pass down as props to properly display in todocard.
+    const todayDay = today.getDate()
+    var options = {weekday: "long", year: "numeric", month: "long", day: "numeric"};
+    const todaysDate = today.toLocaleDateString("en-US", options)
+    const todayMonth = todaysDate.split(' ')[1]
+
+    return todayArray.map(item => {
+      return <ToDoCard event={item} key={item.id} day={todayDay} month={todayMonth}/>
+    })
+  }
   
   render() {
     return (
@@ -56,10 +81,13 @@ export default class Dashboard extends React.Component {
         <section className="dashboard__section">
           <h1 className="dashboard__section-heading">Today's To-Do List</h1>
           <div className="dashboard__section-container">
+            {
+              this.getToday()
+            }
+            {/* <ToDoCard />
             <ToDoCard />
             <ToDoCard />
-            <ToDoCard />
-            <ToDoCard />
+            <ToDoCard /> */}
           </div>
         </section>
 
@@ -75,7 +103,7 @@ export default class Dashboard extends React.Component {
             </article>
             {
               this.props.events.map(item => {
-                return <EventRow event={item}/>
+                return <EventRow event={item} key={item.id}/>
               })
             }
             {/* <EventRow />

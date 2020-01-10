@@ -14,16 +14,18 @@ export default class ToDoCard extends React.Component {
   }
   
   render() {
+    const {title, status} = this.props.event
+    // console.log(this.props.event)
     return (
       <article className="card">
         <div className="card__date">
-          <span className="card__date-day">20</span>
-          <span className="card__date-month">December</span>
+          <span className="card__date-day">{this.props.day}</span>
+          <span className="card__date-month">{this.props.month}</span>
         </div>
         <div className="card__details">
           <div className="card__details-text">
-            <h2 className="card__details-text-name">Code all day everyday</h2>
-            <p className="card__details-text-description">Now</p>
+            <h2 className="card__details-text-name">{title}</h2>
+            <p className="card__details-text-description">{status}</p>
           </div>
           <img className="card__details-menu" src={MenuIcon} alt="" onClick={this.toggleMenu}/>
         </div>

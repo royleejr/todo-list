@@ -18,11 +18,11 @@ class App extends React.Component {
 
   state = {
     events: [
-    { title: 'Roys event', start:'2020-01-07T10:30:00', end:"2020-01-10T11:30:00", editable: true, personal: true, id: uniqid()},
-    { title: 'The third list', start: '2020-01-14T03:00:00', end:"2020-01-11T11:30:00", personal: true, id: uniqid()},
-    // { title: 'The fourth list', start: '2020-01-03T12:00:00', end:"2020-01-06T24:00:00", personal: true, id: uniqid()},
-    { title: 'The fifth list', start: '2020-01-25T08:00:00', end:"2020-01-10T24:00:00", personal: true, id: uniqid()},
-    { title: 'The sixth list', start: '2020-01-31T23:00:00', end:"2020-02-07T11:30:00", personal: true, id: uniqid()}
+    { title: 'Roys event', start:'2020-01-07T10:30:00', end:"2020-01-10T11:30:00", status: 'In progress', id: uniqid()},
+    { title: 'The third list', start: '2020-01-14T03:00:00', end:"2020-01-11T11:30:00", status: 'In progress', id: uniqid()},
+    // { title: 'The fourth list', start: '2020-01-03T12:00:00', end:"2020-01-06T24:00:00", status: 'In progress', id: uniqid()},
+    { title: 'The fifth list', start: '2020-01-25T08:00:00', end:"2020-01-10T24:00:00", status: 'In progress', id: uniqid()},
+    { title: 'The sixth list', start: '2020-01-31T23:00:00', end:"2020-02-07T11:30:00", status: 'In progress', id: uniqid()}
     ]
   }
   

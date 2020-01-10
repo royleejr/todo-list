@@ -52,7 +52,7 @@ export default class EventRow extends React.Component {
         <span className="event-field event--date">{this.getDate(end)}</span>
         <span className="event-field event--time">{this.getStartTime(start)}</span>
         <span className="event-field event--time">{this.getEndTime(end)}</span>
-        <span className="event-field event--status">In progress</span>
+        <span className="event-field event--status">{status}</span>
       </article>
     )
   }
