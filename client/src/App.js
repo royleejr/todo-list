@@ -53,21 +53,52 @@ class App extends React.Component {
         uidMap[item.fcSeg.eventRange.def.publicId].push(item)
       }
     })
+    console.log('this is the UID MAP', uidMap)
     const correctArray = Object.values(uidMap)
-    correctArray.map(item => {
-      console.log('THERES ARE THE ITEMS', item[0].fcSeg.eventRange.def.title)
-      // console.log('THIS IS NEWERER ARRAY' ,newerArray)
-      console.log('this is the final array', finalArray)
-      if (item.length == 2) {
-        console.log('THIS IS BEING PUSHEd', {title: item[0].fcSeg.eventRange.def.title, start: item[0].fcSeg.eventRange.range.start, end: item[1].fcSeg.eventRange.range.end, id: item[0].fcSeg.eventRange.def.publicId })
-        finalArray.push({title: item[0].fcSeg.eventRange.def.title, start: item[0].fcSeg.eventRange.range.start, end: item[1].fcSeg.eventRange.range.end, id: item[0].fcSeg.eventRange.def.publicId })
+    console.log(Object.keys(uidMap))
+    Object.keys(uidMap).map(item => {
+      if (item === "") {
+        uidMap[""].map(object => {
+          finalArray.push({title: object.fcSeg.eventRange.def.title, start: object.fcSeg.eventRange.range.start, end: object.fcSeg.eventRange.range.end, id: 'none' })
+        })
+      }
+      else if (uidMap[item].length === 2) {
+        finalArray.push({title: `${uidMap[item][0].fcSeg.eventRange.def.title}`, start: uidMap[item][0].fcSeg.eventRange.range.start, end: uidMap[item][1].fcSeg.eventRange.range.end, id: uidMap[item][0].fcSeg.eventRange.def.publicId})
       }
       else {
-        console.log('THIS IS BeING PUSEHD IF LENGTH IS 1' ,{title: item[0].fcSeg.eventRange.def.title, start: item[0].fcSeg.eventRange.range.start, end: item[0].fcSeg.eventRange.range.end, id: item[0].fcSeg.eventRange.def.publicId})
-        console.log('THIS IS NEWERER ARRAY' ,finalArray)
-        finalArray.push({title: item[0].fcSeg.eventRange.def.title, start: item[0].fcSeg.eventRange.range.start, end: item[0].fcSeg.eventRange.range.end, id: item[0].fcSeg.eventRange.def.publicId})
+        finalArray.push({title: `${uidMap[item][0].fcSeg.eventRange.def.title}`, start: uidMap[item][0].fcSeg.eventRange.range.start, end: uidMap[item][0].fcSeg.eventRange.range.end, id: uidMap[item][0].fcSeg.eventRange.def.publicId})
       }
     })
+
+    // correctArray.map(item => {
+    //   if (item.length == 2) {
+    //     if (item[0].fcSeg.eventRange.def.publicId) {
+    //       finalArray.push({title: item[0].fcSeg.eventRange.def.title, start: item[0].fcSeg.eventRange.range.start, end: item[1].fcSeg.eventRange.range.end, id: item[0].fcSeg.eventRange.def.publicId })
+    //     }
+    //     else {
+    //       finalArray.push({title: item[0].fcSeg.eventRange.def.title, start: item[0].fcSeg.eventRange.range.start, end: item[1].fcSeg.eventRange.range.end, id: 'none' })
+    //     }
+    //   }
+    //   else {
+    //     if (item[0].fcSeg.eventRange.def.publicId) {
+    //       finalArray.push({title: `${item[0].fcSeg.eventRange.def.title}`, start: item[0].fcSeg.eventRange.range.start, end: item[0].fcSeg.eventRange.range.end, id: item[0].fcSeg.eventRange.def.publicId})
+    //     }
+    //     else {
+    //       finalArray.push({title: `${item[0].fcSeg.eventRange.def.title}`, start: item[0].fcSeg.eventRange.range.start, end: item[0].fcSeg.eventRange.range.end, id: 'none'})
+    //     }
+    //   }
+    // })
+
+    console.log('this is the final array', finalArray)
+
+    // finalArray.map(item => {
+    //   if (item.id === 'none') {
+    //     finalArray.push({title: `${item.title}`, start: `${this.getDate(startDate)}`, end:item.fcSeg.eventRange.range.end, id: uniqid() })
+    //   }
+    //   const indexOfItem = newState.findIndex((element) => {
+    //     return element.id === item.id
+    //   })
+    // })
 
     // console.log('THIS IS THE UID OBJECT', newerArray)
 
@@ -91,7 +122,7 @@ class App extends React.Component {
     
     //need to check id's to see if they are the same, if date !== item.fcSeg.eventRange.range.end, then we change it.
     
-    newerArray.map( (item, index) => {
+    finalArray.map( (item, index) => {
 
       if (item.fcSeg) {
         const date = new Date(item.fcSeg.eventRange.range.start)
@@ -101,7 +132,7 @@ class App extends React.Component {
         })
         
         if (!item.fcSeg.eventRange.def.publicId ) {
-          newerArray.push({title: `${item.fcSeg.eventRange.def.title}`, start: `${this.getDate(date)}`, end:item.fcSeg.eventRange.range.end, id: uniqid() })
+          newState.push({title: `${item.fcSeg.eventRange.def.title}`, start: `${this.getDate(date)}`, end:item.fcSeg.eventRange.range.end, id: uniqid() })
         }
         else {
           // const newerState = newState.filter(obj => {
@@ -109,30 +140,32 @@ class App extends React.Component {
           // })
           // console.log(newerState)
           const oldTime = newState[indexOfItem].start;
-          newerArray.splice(indexOfItem, 1);
-          newerArray.push({title: `${item.fcSeg.eventRange.def.title}`, start: `${this.getDate(date, newState[indexOfItem].start)}`, end:item.fcSeg.eventRange.range.end, id: uniqid()});
+          newState.splice(indexOfItem, 1);
+          newState.push({title: `${item.fcSeg.eventRange.def.title}`, start: `${this.getDate(date, newState[indexOfItem].start)}`, end:item.fcSeg.eventRange.range.end, id: uniqid()});
         }
       }
       else {
         const startDate = new Date(item.start);
         // const endDate = new Date(item.end);
-
-        if (!item.id) {
-          newerArray.push({title: `${item.fcSeg.eventRange.def.title}`, start: `${this.getDate(startDate)}`, end:item.fcSeg.eventRange.range.end, id: uniqid() })
+        console.log('THIS IS THE ITEM COMING IN', item)
+        if (item.id === 'none') {
+          newState.push({title: `${item.title}`, start: `${this.getDate(startDate)}`, end: `${this.getEndDate(item.end)}`, id: uniqid() })
         }
         else {
           // console.log('THIS IS THE INDEX WERE ON', index)
           const indexOfItem = newState.findIndex((element) => {
-            console.log('ELEMENT ID', element.id)
-            console.log('ITEM IDDD', item.id)
+            // console.log('ELEMENT ID', element.id)
+            // console.log('ITEM IDDD', item.id)
             return element.id === item.id
           })
           // console.log('THIS IS THE INDEZX', indexOfItem)
-          // const oldTime = newState[indexOfItem].start;
-          newerArray.splice(indexOfItem, 1);
-          newerArray.push({title: `${item.title}`, start: `${this.getDate(startDate, newState[indexOfItem].start)}`, end: item.end, id: item.id});
+          const oldStartTime = newState[indexOfItem].start;
+          const oldEndTime = newState[indexOfItem].end;
+          // console.log('this is the End date', item.end)
+          newState.splice(indexOfItem, 1);
+          newState.push({title: `${item.title}`, start: `${this.getDate(startDate, oldStartTime)}`, end: `${this.getEndDate(item.end, oldEndTime)}`, id: item.id});
+          console.log('tHis is the new state at the end', newState)
         }
-
       }
 
 
@@ -197,9 +230,9 @@ class App extends React.Component {
       //   }
       // }
     })
-    // console.log('this is THE NEWER STATE', newerState)
+    console.log('this is THE NEWER STATE', newState)
     this.setState({
-      events: newerArray
+      events: newState
     })
   }
 
@@ -213,16 +246,35 @@ class App extends React.Component {
     const year = addedDay.getFullYear();
     const day = "0" + addedDay.getDate();
 
+    console.log('THIS IT THE OLDDATE', oldDate)
+
     //if this item already existed and had a time, to keep the same time as it was before I needed to find a way
     //to keep the time without altering it because the new date I would always get from the start in the node was 7pm.
     if (oldDate) {
       const newTimeArray = oldDate.split('T');
-      console.log('this is the old date', oldDate)
+      // console.log('this is the old date', oldDate)
       const fullDate = `${year}` + "-" + month.substr(-2) + "-" + day.substr(-2) + "T" + newTimeArray[1];
       return fullDate
     }
     else {
       const fullDate = `${year}` + "-" + month.substr(-2) + "-" + day.substr(-2) + "T" + "00:00:00";
+      return fullDate
+    }
+  }
+
+  getEndDate = (newDate, oldDate) => {
+    const month = "0" + (newDate.getMonth() + 1);
+    const year = newDate.getFullYear();
+    const day = "0" + newDate.getDate();
+
+    if (oldDate) {
+      const newTimeArray = oldDate.split('T');
+      // console.log('this is the old date', oldDate)
+      const fullDate = `${year}` + "-" + month.substr(-2) + "-" + day.substr(-2) + "T" + newTimeArray[1];
+      return fullDate
+    }
+    else {
+      const fullDate = `${year}` + "-" + month.substr(-2) + "-" + day.substr(-2) + "T" + "24:00:00";
       return fullDate
     }
   }
