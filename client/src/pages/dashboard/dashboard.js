@@ -54,7 +54,7 @@ export default class Dashboard extends React.Component {
         </Modal>
 
         <section className="dashboard__section">
-          <h1 className="dashboard__section-heading">To-Do List</h1>
+          <h1 className="dashboard__section-heading">Today's To-Do List</h1>
           <div className="dashboard__section-container">
             <ToDoCard />
             <ToDoCard />
@@ -73,12 +73,17 @@ export default class Dashboard extends React.Component {
               <span className="event-field event--time">End Time</span>
               <span className="event-field event--status">Status</span>
             </article>
+            {
+              this.props.events.map(item => {
+                return <EventRow event={item}/>
+              })
+            }
+            {/* <EventRow />
             <EventRow />
             <EventRow />
             <EventRow />
             <EventRow />
-            <EventRow />
-            <EventRow />
+            <EventRow /> */}
           </div>
         </section>
 
