@@ -9,6 +9,7 @@ import Calendar from './pages/calendar/calendar';
 
 
 import './App.css';
+import { compensateScroll } from '@fullcalendar/core';
 
 class App extends React.Component {
 
@@ -18,7 +19,10 @@ class App extends React.Component {
   state = {
     events: [
     { title: 'Roys event', start:'2020-01-07T10:30:00', end:"2020-01-10T11:30:00", editable: true, personal: true, id: uniqid()},
-    { title: 'The second list', start: '2020-01-14T00:00:00', personal: true, id: uniqid()}
+    { title: 'The third list', start: '2020-01-14T03:00:00', end:"2020-01-11T11:30:00", personal: true, id: uniqid()},
+    // { title: 'The fourth list', start: '2020-01-03T12:00:00', end:"2020-01-06T24:00:00", personal: true, id: uniqid()},
+    { title: 'The fifth list', start: '2020-01-25T08:00:00', end:"2020-01-10T24:00:00", personal: true, id: uniqid()},
+    { title: 'The sixth list', start: '2020-01-31T23:00:00', end:"2020-02-07T11:30:00", personal: true, id: uniqid()}
     ]
   }
   
@@ -30,38 +34,150 @@ class App extends React.Component {
   addEvent = (event) => {
     // console.log('this is the event', event)'
     const newArray = Array.from(event);
-    const newState = this.state.events;
-    const newerState = []
-    //need to check id's to see if they are the same, if date !== item.fcSeg.eventRange.range.end, then we change it.
+    // let newerState = []
     
-    newArray.map( (item) => {
-      //changing the start date to be pushed back 5 hours behind because the start day given was always 5 hours ahead.
-      const date = new Date(item.fcSeg.eventRange.range.start)
-      const unix = date.getTime() + 18000000
-      console.log('thisis new state', unix)
-      // console.log('end time', item.fcSeg.eventRange.range.end)
-      //filter out items with same id.
+    var newState = this.state.events;
+    // console.log('THIS IS THE NEW ARRAY', event)
 
-      // k55z85sb
-      // const filteredState = newState.filter(obj => {
-      //   console.log(item.fcSeg.eventRange.def.publicId)
-      //   return obj.id !== item.fcSeg.eventRange.def.publicId
-      // })
-      // console.log(filteredState)
-
-      //find index of item that matches id.
-      
-      //check to see if this todo event is not already in state.
-      const indexOfItem = newState.findIndex((element) => {
-        return element.id === item.fcSeg.eventRange.def.publicId
-      })
-      console.log('INDEX OF ', indexOfItem)
-      if (!item.fcSeg.eventRange.def.publicId) {
-        newerState.push({title: `${item.fcSeg.eventRange.def.title}`, start: `${this.getDate(date)}`, end:item.fcSeg.eventRange.range.end, id: uniqid() })
+    const uidMap = {}
+    let finalArray = []
+    const newerArray = []
+    
+    console.log('this is the final array', finalArray)
+    newArray.map(item => {
+      if (uidMap[item.fcSeg.eventRange.def.publicId]) {
+        uidMap[item.fcSeg.eventRange.def.publicId].push(item)
       }
       else {
-        newerState.push({title: `${item.fcSeg.eventRange.def.title}`, start: `${this.getDate(date, this.state.events[indexOfItem].start)}`, end:item.fcSeg.eventRange.range.end, id: uniqid()})
+        uidMap[item.fcSeg.eventRange.def.publicId] = []
+        uidMap[item.fcSeg.eventRange.def.publicId].push(item)
       }
+    })
+    const correctArray = Object.values(uidMap)
+    correctArray.map(item => {
+      console.log('THERES ARE THE ITEMS', item[0].fcSeg.eventRange.def.title)
+      // console.log('THIS IS NEWERER ARRAY' ,newerArray)
+      console.log('this is the final array', finalArray)
+      if (item.length == 2) {
+        console.log('THIS IS BEING PUSHEd', {title: item[0].fcSeg.eventRange.def.title, start: item[0].fcSeg.eventRange.range.start, end: item[1].fcSeg.eventRange.range.end, id: item[0].fcSeg.eventRange.def.publicId })
+        finalArray.push({title: item[0].fcSeg.eventRange.def.title, start: item[0].fcSeg.eventRange.range.start, end: item[1].fcSeg.eventRange.range.end, id: item[0].fcSeg.eventRange.def.publicId })
+      }
+      else {
+        console.log('THIS IS BeING PUSEHD IF LENGTH IS 1' ,{title: item[0].fcSeg.eventRange.def.title, start: item[0].fcSeg.eventRange.range.start, end: item[0].fcSeg.eventRange.range.end, id: item[0].fcSeg.eventRange.def.publicId})
+        console.log('THIS IS NEWERER ARRAY' ,finalArray)
+        finalArray.push({title: item[0].fcSeg.eventRange.def.title, start: item[0].fcSeg.eventRange.range.start, end: item[0].fcSeg.eventRange.range.end, id: item[0].fcSeg.eventRange.def.publicId})
+      }
+    })
+
+    // console.log('THIS IS THE UID OBJECT', newerArray)
+
+    // newArray.map(object => {
+    //   const filteredArray = newArray.filter(node => {
+    //     return node.fcSeg.eventRange.def.publicId  === object.fcSeg.eventRange.def.publicId
+    //   })
+
+    //   const correctArray = newArray.filter(node => {
+    //     return node.fcSeg.eventRange.def.publicId  !== object.fcSeg.eventRange.def.publicId
+    //   })
+    //   if (filteredArray.length === 2) {
+    //     const filteredStart = filteredArray[0].fcSeg.eventRange.range.start;
+    //     const filteredEnd = filteredArray[1].fcSeg.eventRange.range.end;
+    //     newer.push({title: filteredArray[0].fcSeg.eventRange.def.title, start: filteredStart, end: filteredEnd, id: filteredArray[0].fcSeg.eventRange.def.publicId});
+    //   }
+    //   else {
+    //     return newArray
+    //   }
+    // })
+    
+    //need to check id's to see if they are the same, if date !== item.fcSeg.eventRange.range.end, then we change it.
+    
+    newerArray.map( (item, index) => {
+
+      if (item.fcSeg) {
+        const date = new Date(item.fcSeg.eventRange.range.start)
+
+        const indexOfItem = newState.findIndex((element) => {
+          return element.id === item.fcSeg.eventRange.def.publicId
+        })
+        
+        if (!item.fcSeg.eventRange.def.publicId ) {
+          newerArray.push({title: `${item.fcSeg.eventRange.def.title}`, start: `${this.getDate(date)}`, end:item.fcSeg.eventRange.range.end, id: uniqid() })
+        }
+        else {
+          // const newerState = newState.filter(obj => {
+          //   return obj.id === item.fcSeg.eventRange.def.publicId
+          // })
+          // console.log(newerState)
+          const oldTime = newState[indexOfItem].start;
+          newerArray.splice(indexOfItem, 1);
+          newerArray.push({title: `${item.fcSeg.eventRange.def.title}`, start: `${this.getDate(date, newState[indexOfItem].start)}`, end:item.fcSeg.eventRange.range.end, id: uniqid()});
+        }
+      }
+      else {
+        const startDate = new Date(item.start);
+        // const endDate = new Date(item.end);
+
+        if (!item.id) {
+          newerArray.push({title: `${item.fcSeg.eventRange.def.title}`, start: `${this.getDate(startDate)}`, end:item.fcSeg.eventRange.range.end, id: uniqid() })
+        }
+        else {
+          // console.log('THIS IS THE INDEX WERE ON', index)
+          const indexOfItem = newState.findIndex((element) => {
+            console.log('ELEMENT ID', element.id)
+            console.log('ITEM IDDD', item.id)
+            return element.id === item.id
+          })
+          // console.log('THIS IS THE INDEZX', indexOfItem)
+          // const oldTime = newState[indexOfItem].start;
+          newerArray.splice(indexOfItem, 1);
+          newerArray.push({title: `${item.title}`, start: `${this.getDate(startDate, newState[indexOfItem].start)}`, end: item.end, id: item.id});
+        }
+
+      }
+
+
+      //changing the start date to be pushed back 5 hours behind because the start day given was always 5 hours ahead.
+      // const date = new Date(item.fcSeg.eventRange.range.start)
+      // const unix = date.getTime() + 18000000
+      // // console.log('end time', item.fcSeg.eventRange.range.end)
+      // //filter out items with same id.
+      
+      // // k55z85sb
+      // // const filteredState = newState.filter(obj => {
+      //   //   console.log(item.fcSeg.eventRange.def.publicId)
+      //   //   return obj.id !== item.fcSeg.eventRange.def.publicId
+      //   // })
+      //   // console.log(filteredState)
+
+      
+      
+      //   //find index of item that matches id.
+        
+      //   //check to see if this todo event is not already in state.
+
+      // const indexOfItem = newState.findIndex((element) => {
+      //   return element.id === item.fcSeg.eventRange.def.publicId
+      // })
+      // console.log('THIS SIS THE INDEX', indexOfItem)
+      // // const index = newState.findIndex((element) => {
+      // //   return element.id === item.fcSeg.eventRange.def.publicId
+      // // })
+
+      // //!item.fcSeg.eventRange.def.publicId
+      // if (!item.fcSeg.eventRange.def.publicId ) {
+      //   newState.push({title: `${item.fcSeg.eventRange.def.title}`, start: `${this.getDate(date)}`, end:item.fcSeg.eventRange.range.end, id: uniqid() })
+      // }
+      // else {
+      //   // const newerState = newState.filter(obj => {
+      //   //   return obj.id === item.fcSeg.eventRange.def.publicId
+      //   // })
+      //   // console.log(newerState)
+      //   const oldTime = newState[indexOfItem].start;
+      //   newState.splice(indexOfItem, 1);
+      //   newState.push({title: `${item.fcSeg.eventRange.def.title}`, start: `${this.getDate(date, newState[indexOfItem].start)}`, end:item.fcSeg.eventRange.range.end, id: uniqid()});
+      // }
+
+
 
 
       // if (!item.fcSeg.eventRange.def.extendedProps.personal) {
@@ -81,9 +197,9 @@ class App extends React.Component {
       //   }
       // }
     })
-    console.log('this is THE NEWER STATE', newerState)
+    // console.log('this is THE NEWER STATE', newerState)
     this.setState({
-      events: newerState
+      events: newerArray
     })
   }
 

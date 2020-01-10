@@ -1,0 +1,42 @@
+@import '../../styles/variables.scss';
+
+
+.event {
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 15px;
+  border-radius: 2px;
+  &--heading {
+    position: sticky;
+    top: 0;
+    left: 0;
+    font-weight: bold;
+  }
+  &:nth-child(odd) {
+    background-color: white;
+  }
+  &:nth-child(even) {
+    background-color: $grey;
+  }
+  &-field {
+    box-sizing: border-box;
+    padding: 18px 15px;
+    border-right: 1px solid lightgrey;
+    margin: 0;
+    &:last-child {
+      border: none;
+    }
+  }
+  &--name {
+    width: 45%;
+  }
+  &--date {
+    width: 20%;
+  }
+  &--time {
+    width: 10%;
+  }
+  &--status {
+    width: 15%;
+  }
+}

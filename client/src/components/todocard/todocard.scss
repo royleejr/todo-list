@@ -1,0 +1,88 @@
+@import '../../styles/variables.scss';
+
+
+.card {
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  width: 48.9%;
+  min-height: 100px;
+  margin: 0 25px 15px 0;
+  &:nth-child(even) {
+    margin-right: 0;
+  }
+  &__date {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 80px;
+    margin-right: 20px;
+    &-day {
+      font-size: 30px;
+      margin: 0;
+    }
+    &-month {
+      font-size: 15px;
+      margin: 0;
+    }
+  }
+  &__details {
+    flex-grow: 1;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    width: 200px;
+    padding: 20px 30px;
+    border: 1px solid $grey;
+    border-radius: 6px;
+    box-shadow: $box-shadow;
+    &-text {
+      flex-grow: 1;
+      width: 150px;
+      margin-right: 80px;
+      &-name {
+        font-size: 20px;
+        margin: 0 0 8px 0;
+      }
+      &-description {
+        font-size: 15px;
+        margin: 0;
+      }
+    }
+    &-menu {
+      height: 10px;
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+  &__popup {
+    position: absolute;
+    top: 35px;
+    right: 30px;
+    width: 75px;
+    font-size: 12px;
+    color: black;
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+    box-shadow: $box-shadow;
+    &-item {
+      background-color: $grey;
+      padding: 6px;
+      margin: 0;
+      &:first-child {
+        border-bottom: 1px solid lightgrey;
+        border-radius: 2px 2px 0 0;
+      }
+      &:last-child {
+        border-radius: 0 0 2px 2px;
+      }
+    }
+    &-item:hover {
+      cursor: pointer;
+      color: white;
+      background-color: $blue;
+    }
+  }
+}

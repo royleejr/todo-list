@@ -4,6 +4,8 @@ import './dashboard.scss';
 
 
 import EditModal from '../../components/editmodal/editmodal';
+import EventRow from '../../components/eventrow/eventrow';
+import ToDoCard from '../../components/todocard/todocard';
 
 Modal.setAppElement('body')
 
@@ -50,11 +52,41 @@ export default class Dashboard extends React.Component {
         >
           <EditModal closeModal={this.closeModal}/>
         </Modal>
-        {
+
+        <section className="dashboard__section">
+          <h1 className="dashboard__section-heading">To-Do List</h1>
+          <div className="dashboard__section-container">
+            <ToDoCard />
+            <ToDoCard />
+            <ToDoCard />
+            <ToDoCard />
+          </div>
+        </section>
+
+        <section className="dashboard__section">
+          <h1 className="dashboard__section-heading">Events</h1>
+          <div className="dashboard__section-table">
+            <article className="event event--heading">
+              <span className="event-field event--name">Project</span>
+              <span className="event-field event--date">Date</span>
+              <span className="event-field event--time">Start Time</span>
+              <span className="event-field event--time">End Time</span>
+              <span className="event-field event--status">Status</span>
+            </article>
+            <EventRow />
+            <EventRow />
+            <EventRow />
+            <EventRow />
+            <EventRow />
+            <EventRow />
+          </div>
+        </section>
+
+        {/* {
           this.props.events.map(item => {
             return <p>{item.title}</p>
           })
-        }
+        } */}
       </section>
     )
   }
