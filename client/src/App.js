@@ -39,9 +39,8 @@ class App extends React.Component {
     var newState = this.state.events;
     // console.log('THIS IS THE NEW ARRAY', event)
 
-    const uidMap = {}
-    let finalArray = []
-    const newerArray = []
+    const uidMap = {};
+    let finalArray = [];
     
     console.log('this is the final array', finalArray)
     newArray.map(item => {

@@ -11,7 +11,7 @@ export default class EventRow extends React.Component {
     console.log(dateArray[0])
     const newDate = new Date(date)
     const day = (newDate.getDate() + 1)
-    var options = {weekday: "long", year: "numeric", month: "short", day: "numeric"};
+    var options = {weekday: "long", year: "numeric", month: "long", day: "numeric"};
     return newDate.toLocaleDateString("en-US", options)
     // return dateArray[0]
   }
