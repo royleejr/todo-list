@@ -75,7 +75,7 @@ export default class Dashboard extends React.Component {
           style={customStyles}
           contentLabel="Example Modal"
         >
-          <EditModal closeModal={this.closeModal}/>
+          <EditModal closeModal={this.closeModal} addNewEvent={(props) => this.props.addNewEvent(props)}/>
         </Modal>
 
         <section className="dashboard__section">

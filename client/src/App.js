@@ -18,10 +18,10 @@ class App extends React.Component {
 
   state = {
     events: [
-    { title: 'Roys event', start:'2020-01-07T10:30:00', end:"2020-01-10T11:30:00", status: 'In progress', id: uniqid()},
+    { title: 'Roys event', start:'2020-01-07T10:30:00', end:"2020-01-10T11:30:00", status: 'Complete', id: uniqid()},
     { title: 'Yukis event', start:'2020-01-10T10:30:00', end:"2020-01-10T23:00:00", status: 'In progress', id: uniqid()},
-    { title: 'Clean my room', start:'2020-01-14T10:30:00', end:"2020-01-17T20:30:00", status: 'In progress', id: uniqid()},
-    { title: 'The third list', start: '2020-01-14T03:00:00', end:"2020-01-11T19:00:00", status: 'In progress', id: uniqid()},
+    { title: 'Clean my room', start:'2020-01-14T10:30:00', end:"2020-01-17T20:30:00", status: 'Pending', id: uniqid()},
+    { title: 'The third list', start: '2020-01-14T03:00:00', end:"2020-01-11T19:00:00", status: 'Pending', id: uniqid()},
     // { title: 'The fourth list', start: '2020-01-03T12:00:00', end:"2020-01-06T24:00:00", status: 'In progress', id: uniqid()},
     { title: 'The fifth list', start: '2020-01-25T08:00:00', end:"2020-01-10T24:00:00", status: 'In progress', id: uniqid()},
     { title: 'The sixth list', start: '2020-01-31T23:00:00', end:"2020-02-07T11:30:00", status: 'In progress', id: uniqid()}
@@ -32,6 +32,33 @@ class App extends React.Component {
   editEvent = () => {
     alert("It worked")
   }
+
+  addNewEvent = (event) => {
+
+    event.preventDefault();
+
+    //find which radio button was checked
+    var checked;
+    const newArray = Array.from(event.target.status);
+    newArray.map(item => {
+      if (item.checked) {
+        checked = item.value
+      }
+    })
+
+    const title = event.target.title.value;
+    const startDate = `${event.target.startDate.value}T${event.target.startTime.value}:00`
+    const endDate = `${event.target.endDate.value}T${event.target.endTime.value}:00`
+    const newEvent = [{ title: `${title}`, start: startDate, end: endDate, status: `${checked}`, id: uniqid()}]
+
+    const newState = [...this.state.events, ...newEvent ]
+
+    this.setState({
+      events: newState
+    })
+
+  }
+
 
   addEvent = (event) => {
     // console.log('this is the event', event)'
@@ -60,14 +87,14 @@ class App extends React.Component {
     Object.keys(uidMap).map(item => {
       if (item === "") {
         uidMap[""].map(object => {
-          finalArray.push({title: object.fcSeg.eventRange.def.title, start: object.fcSeg.eventRange.range.start, end: object.fcSeg.eventRange.range.end, id: 'none' })
+          finalArray.push({title: object.fcSeg.eventRange.def.title, start: object.fcSeg.eventRange.range.start, end: object.fcSeg.eventRange.range.end, status: object.fcSeg.eventRange.def.extendedProps.status,  id: 'none' })
         })
       }
       else if (uidMap[item].length === 2) {
-        finalArray.push({title: `${uidMap[item][0].fcSeg.eventRange.def.title}`, start: uidMap[item][0].fcSeg.eventRange.range.start, end: uidMap[item][1].fcSeg.eventRange.range.end, id: uidMap[item][0].fcSeg.eventRange.def.publicId})
+        finalArray.push({title: `${uidMap[item][0].fcSeg.eventRange.def.title}`, start: uidMap[item][0].fcSeg.eventRange.range.start, end: uidMap[item][1].fcSeg.eventRange.range.end, status: uidMap[item][0].fcSeg.eventRange.def.extendedProps.status, id: uidMap[item][0].fcSeg.eventRange.def.publicId})
       }
       else {
-        finalArray.push({title: `${uidMap[item][0].fcSeg.eventRange.def.title}`, start: uidMap[item][0].fcSeg.eventRange.range.start, end: uidMap[item][0].fcSeg.eventRange.range.end, id: uidMap[item][0].fcSeg.eventRange.def.publicId})
+        finalArray.push({title: `${uidMap[item][0].fcSeg.eventRange.def.title}`, start: uidMap[item][0].fcSeg.eventRange.range.start, end: uidMap[item][0].fcSeg.eventRange.range.end, status: uidMap[item][0].fcSeg.eventRange.def.extendedProps.status, id: uidMap[item][0].fcSeg.eventRange.def.publicId})
       }
     })
 
@@ -150,7 +177,7 @@ class App extends React.Component {
         // const endDate = new Date(item.end);
         console.log('THIS IS THE ITEM COMING IN', item)
         if (item.id === 'none') {
-          newState.push({title: `${item.title}`, start: `${this.getDate(startDate)}`, end: `${this.getEndDate(item.end)}`, id: uniqid() })
+          newState.push({title: `${item.title}`, start: `${this.getDate(startDate)}`, end: `${this.getEndDate(item.end)}`, status: item.status, id: uniqid() })
         }
         else {
           // console.log('THIS IS THE INDEX WERE ON', index)
@@ -164,7 +191,7 @@ class App extends React.Component {
           const oldEndTime = newState[indexOfItem].end;
           // console.log('this is the End date', item.end)
           newState.splice(indexOfItem, 1);
-          newState.push({title: `${item.title}`, start: `${this.getDate(startDate, oldStartTime)}`, end: `${this.getEndDate(item.end, oldEndTime)}`, id: item.id});
+          newState.push({title: `${item.title}`, start: `${this.getDate(startDate, oldStartTime)}`, end: `${this.getEndDate(item.end, oldEndTime)}`, status: item.status, id: item.id});
           console.log('tHis is the new state at the end', newState)
         }
       }
@@ -315,7 +342,7 @@ class App extends React.Component {
         <BrowserRouter>
           <Nav />
           <Switch>
-            <Route exact path="/" render={(props) => <Dashboard {...props} events={this.state.events}/>} />
+            <Route exact path="/" render={(props) => <Dashboard {...props} events={this.state.events} addNewEvent={this.addNewEvent}/>} />
             <Route exact path="/calendar" render={(props) => <Calendar {...props} events={this.state.events} addEvent={this.addEvent}/>} />
           </Switch>
         </BrowserRouter>

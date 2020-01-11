@@ -20,10 +20,10 @@
       flex-direction: column;
       width: calc(50% - 20px);
       margin-bottom: 20px;
-      &:nth-child(odd) {
+      &:nth-child(even) {
         margin-right: 20px;
       }
-      &:nth-child(even) {
+      &:nth-child(odd) {
         margin-left: 20px;
       }
     }
@@ -74,4 +74,9 @@
     width: 500px !important;
     padding: 50px 40px !important;
   }
+}
+
+#full {
+  width: 100%;
+  margin-left: 0;
 }
