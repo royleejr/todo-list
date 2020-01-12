@@ -1,0 +1,42 @@
+@import '../../styles/variables.scss';
+
+.status {
+  display: flex;
+  flex-direction: column;
+  width: 70vw;
+  padding: $padding;
+  &__heading {
+    font-size: 35px;
+    margin: 130px 0 30px;
+  }
+  &__list {
+    display: flex;
+    list-style-type: none;
+    padding-inline-start: 0;
+    margin: 0 0 30px;
+    &-item {
+      cursor: pointer;
+      color: $blue;
+      font-weight: bold;
+      padding: 10px 20px;
+      border: 1px solid lightgrey;
+      border-radius: 40px;
+      margin-right: 25px;
+      &:hover {
+        color: $dark-blue;
+      }
+      &:active {
+        color: white;
+        background-color: $blue;
+      }
+      &--active {
+        color: white;
+        background-color: $blue;
+      }
+    }
+  }
+  &__cards {
+    display: flex;
+    flex-wrap: wrap;
+  }
+}

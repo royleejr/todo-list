@@ -1,4 +1,5 @@
 import React from 'react';
+import Modal from 'react-modal';
 import uniqid from 'uniqid';
 
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
@@ -6,10 +7,25 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Nav from './components/nav/nav';
 import Dashboard from './pages/dashboard/dashboard';
 import Calendar from './pages/calendar/calendar';
+import Status from './pages/status/status';
+import ToDoCard from './components/todocard/todocard';
+import EditModal from './components/editmodal/editmodal';
 
 
 import './App.css';
-import { compensateScroll } from '@fullcalendar/core';
+
+Modal.setAppElement('body')
+
+const customStyles = {
+  content : {
+    top                   : '50%',
+    left                  : '50%',
+    right                 : 'auto',
+    bottom                : 'auto',
+    marginRight           : '-50%',
+    transform             : 'translate(-50%, -50%)'
+  }
+};
 
 class App extends React.Component {
 
@@ -19,13 +35,15 @@ class App extends React.Component {
   state = {
     events: [
     { title: 'Roys event', start:'2020-01-07T10:30:00', end:"2020-01-10T11:30:00", status: 'Complete', id: uniqid()},
-    { title: 'Yukis event', start:'2020-01-10T10:30:00', end:"2020-01-10T23:00:00", status: 'In progress', id: uniqid()},
+    { title: 'Yukis event', start:'2020-01-11T10:30:00', end:"2020-01-11T23:00:00", status: 'In progress', id: uniqid()},
     { title: 'Clean my room', start:'2020-01-14T10:30:00', end:"2020-01-17T20:30:00", status: 'Pending', id: uniqid()},
     { title: 'The third list', start: '2020-01-14T03:00:00', end:"2020-01-11T19:00:00", status: 'Pending', id: uniqid()},
     // { title: 'The fourth list', start: '2020-01-03T12:00:00', end:"2020-01-06T24:00:00", status: 'In progress', id: uniqid()},
     { title: 'The fifth list', start: '2020-01-25T08:00:00', end:"2020-01-10T24:00:00", status: 'In progress', id: uniqid()},
     { title: 'The sixth list', start: '2020-01-31T23:00:00', end:"2020-02-07T11:30:00", status: 'In progress', id: uniqid()}
-    ]
+    ],
+    modalIsOpen: false,
+    singularEvent: null
   }
   
 
@@ -264,6 +282,19 @@ class App extends React.Component {
     })
   }
 
+  deleteEvent = (id, toggleMenu) => {
+    const oldState = this.state.events;
+    const newState = oldState.filter(item => {
+      return item.id !== id 
+    })
+
+    this.setState({
+      events: newState
+    })
+
+    toggleMenu()
+  }
+
   getDate = (newDate, oldDate) => {
     //adding one day to the date given because the node start day bugs and gives it one day earlier.
     //instead of adding one day to the day of this daychanged the date back to unix because when adding 
@@ -307,6 +338,23 @@ class App extends React.Component {
     }
   }
 
+
+  //put this function in app because I need the function in both status page and dashboard page.
+  getToDoList = (array) => {
+    return array.map(item => {
+      //getting todays day and the long version of the month to pass down as props to properly display in todocard.
+      const day = new Date(item.end)
+      const options = {weekday: "long", year: "numeric", month: "long", day: "numeric"};
+      const todaysDate = day.toLocaleDateString("en-US", options)
+      //get just the month name
+      const todayMonth = todaysDate.split(' ')[1]
+      //get the day without the comma
+      const todayDay = todaysDate.split(' ')[2].split(',')[0]
+      console.log(item.id)
+      return <ToDoCard event={item} key={item.id} day={todayDay} month={todayMonth} deleteEvent={this.deleteEvent} openModal={this.openModal} closeModal={this.closeModal}/>
+    })
+  }
+
   // getDate = (newDate, oldDate) => {
   //   console.log('THIS IS OLD DATe', oldDate)
   //   const newYear = newDate.getFullYear()
@@ -333,17 +381,44 @@ class App extends React.Component {
 
   //   // console.log('oldarray', newTimeArray)
   // }
+  
+  openModal = (item, toggleMenu) => {
+    this.setState({
+      modalIsOpen: true,
+      singularEvent: item
+    });
+
+    //to close edit/delete dropdown
+    toggleMenu()
+  }
+
+  closeModal = () => {
+    this.setState({
+      modalIsOpen: false
+    });
+  }
+
 
 
   render() {
-    // console.log(this.state.events)
+    console.log('THIS IS THE ITEM', this.state.item)
     return (
       <div className="flex">
         <BrowserRouter>
           <Nav />
+          <Modal
+          isOpen={this.state.modalIsOpen}
+          onAfterOpen={this.afterOpenModal}
+          onRequestClose={this.closeModal}
+          style={customStyles}
+          contentLabel="Add/Edit Event"
+          >
+            <EditModal closeModal={this.closeModal} addNewEvent={(props) => this.addNewEvent(props)} singularEvent={this.state.singularEvent}/>
+          </Modal>
           <Switch>
-            <Route exact path="/" render={(props) => <Dashboard {...props} events={this.state.events} addNewEvent={this.addNewEvent}/>} />
+            <Route exact path="/" render={(props) => <Dashboard {...props} events={this.state.events} addNewEvent={this.addNewEvent} getToDoList={this.getToDoList} openModal={this.openModal}/>} />
             <Route exact path="/calendar" render={(props) => <Calendar {...props} events={this.state.events} addEvent={this.addEvent}/>} />
+            <Route exact path="/status" render={(props) => <Status {...props} events={this.state.events} getToDoList={this.getToDoList}/>} />
           </Switch>
         </BrowserRouter>
       </div>

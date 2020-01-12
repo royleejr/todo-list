@@ -1,44 +1,25 @@
 import React from 'react';
-import Modal from 'react-modal';
+
 import './dashboard.scss';
 
 
 import EditModal from '../../components/editmodal/editmodal';
 import EventRow from '../../components/eventrow/eventrow';
-import ToDoCard from '../../components/todocard/todocard';
-
-Modal.setAppElement('body')
-
-const customStyles = {
-  content : {
-    top                   : '50%',
-    left                  : '50%',
-    right                 : 'auto',
-    bottom                : 'auto',
-    marginRight           : '-50%',
-    transform             : 'translate(-50%, -50%)'
-  }
-};
 
 export default class Dashboard extends React.Component {
 
-  state = {
-      modalIsOpen: false
-    };
+  // state = {
+  //     modalIsOpen: false
+  //   };
 
-  openModal = () => {
-    this.setState({modalIsOpen: true});
-  }
+  
 
   // afterOpenModal() {
   //   // references are now sync'd and can be accessed.
   //   this.subtitle.style.color = '#f00';
   // }
 
-  closeModal = () => {
-    this.setState({modalIsOpen: false});
-  }
-
+  
   getToday = () => {
     const today = new Date()
     
@@ -53,30 +34,15 @@ export default class Dashboard extends React.Component {
       }
     })
 
-    //getting todays day and the long version of the month to pass down as props to properly display in todocard.
-    const todayDay = today.getDate()
-    var options = {weekday: "long", year: "numeric", month: "long", day: "numeric"};
-    const todaysDate = today.toLocaleDateString("en-US", options)
-    const todayMonth = todaysDate.split(' ')[1]
-
-    return todayArray.map(item => {
-      return <ToDoCard event={item} key={item.id} day={todayDay} month={todayMonth}/>
-    })
+    return this.props.getToDoList(todayArray)
   }
+
   
   render() {
     return (
       <section className="dashboard">
-        <button className="dashboard__open-button" onClick={this.openModal}>+ Add Event</button>
-        <Modal
-          isOpen={this.state.modalIsOpen}
-          onAfterOpen={this.afterOpenModal}
-          onRequestClose={this.closeModal}
-          style={customStyles}
-          contentLabel="Example Modal"
-        >
-          <EditModal closeModal={this.closeModal} addNewEvent={(props) => this.props.addNewEvent(props)}/>
-        </Modal>
+        <button className="dashboard__open-button" onClick={this.props.openModal}>+ Add Event</button>
+        
 
         <section className="dashboard__section">
           <h1 className="dashboard__section-heading">Today's To-Do List</h1>

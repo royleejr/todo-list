@@ -5,15 +5,37 @@ import MenuIcon from '../../assets/menu-icon.png';
 import './todocard.scss';
 
 export default class ToDoCard extends React.Component {
+
+  menuRef = React.createRef();
+
   state = {
     menuIsOpen: false
   };
   
+  componentDidMount() {
+      document.addEventListener("mousedown", this.handleClick);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener("mousedown", this.handleClick);
+  }
+
   toggleMenu = () => {
     this.setState({menuIsOpen: !this.state.menuIsOpen});
   }
-  
+
+  handleClick = event => {
+    console.log(this.menuRef.current)
+    if (this.menuRef.current && !this.menuRef.current.contains(event.target)) {
+        this.setState({
+            menuIsOpen: false
+        });
+    }
+  };
+
+
   render() {
+    console.log(this.props)
     const {title, status} = this.props.event
     // console.log(this.props.event)
     return (
@@ -30,9 +52,9 @@ export default class ToDoCard extends React.Component {
           <img className="card__details-menu" src={MenuIcon} alt="" onClick={this.toggleMenu}/>
         </div>
         {this.state.menuIsOpen ? 
-          <div className="card__popup">
-            <p className="card__popup-item">Edit</p>
-            <p className="card__popup-item">Delete</p>
+          <div className="card__popup" ref={this.menuRef}>
+            <p className="card__popup-item" onClick={() => this.props.openModal(this.props.event, this.toggleMenu)}>Edit</p>
+            <p className="card__popup-item" onClick={(props) => this.props.deleteEvent(this.props.event.id, this.toggleMenu)}>Delete</p>
           </div>
         :
           null
