@@ -106,11 +106,6 @@ export default class Calendar extends React.Component {
                 return <div class='fc-event'>{item.title}</div>
               })
             }
-            {/* <div class='fc-event'>My Event 1</div>
-            <div class='fc-event'>My Event 2</div>
-            <div class='fc-event'>My Event 3</div>
-            <div class='fc-event'>My Event 4</div>
-            <div class='fc-event'>My Event 5</div> */}
           </div>
           <div id="calendar" ref={this.calendarParentRef}>
             <FullCalendar 

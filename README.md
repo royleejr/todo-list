@@ -1,3 +1,4 @@
 # Check It Off
 
-## Please view this site at 1680x950. I only had time to really build for that dimension.
+## Due to time constraints, the site was built for the exact screen dimensions of 1680 x 950. Please view the site at these dimensions.
+

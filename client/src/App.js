@@ -45,7 +45,7 @@ class App extends React.Component {
   }
 
   componentDidMount () {
-    alert('Please view the site at 1680x950 for lack of time it was built for just that screen size')
+    alert('Due to time constraints, the site was built for the exact screen dimensions of 1680 x 950. Please view the site at these dimensions.')
   }
 
   addNewEvent = (event, edit) => {
