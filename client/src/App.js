@@ -213,6 +213,7 @@ class App extends React.Component {
   getToDoList = (array, status) => {
 
     if (status) {
+      //for rendering ToDoCard in the status page. We want the date to be the end date of the event.
       return array.map(item => {
         const day = new Date(item.end)
         const options = {weekday: "long", year: "numeric", month: "long", day: "numeric"};
@@ -226,6 +227,7 @@ class App extends React.Component {
       })
     }
     else {
+      //for rendering ToDoCard in the dashboard page. We want the date to be todays date.
       const day = new Date()
       const options = {weekday: "long", year: "numeric", month: "long", day: "numeric"};
       const todaysDate = day.toLocaleDateString("en-US", options)
