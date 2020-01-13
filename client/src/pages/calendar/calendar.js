@@ -61,6 +61,19 @@ export default class Calendar extends React.Component {
     this.props.addEvent(event)
   }
 
+  addFavourite = (event) => {
+    event.preventDefault()
+
+    const newEvent = [{title: event.target.favTitle.value}]
+    const newFavourite = [...this.state.favourites, ...newEvent]
+
+    this.setState({
+      favourites: newFavourite
+    })
+    //close modal after submission
+    this.closeModal()
+  }
+
   openModal = () => {
     this.setState({
       modalIsOpen: true
@@ -82,7 +95,7 @@ export default class Calendar extends React.Component {
           style={customStyles}
           contentLabel="Add Favourite Event"
           >
-          <AddFavourite closeModal={this.closeModal}/>
+          <AddFavourite closeModal={this.closeModal} addFavourite={this.addFavourite}/>
         </Modal>
         <div className="calendar">
           <div id='external-events' ref={this.containerRef}>
