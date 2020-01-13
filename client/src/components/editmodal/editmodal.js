@@ -9,7 +9,6 @@ export default class EditModal extends React.Component {
   getDate = (when) => {
     const startDate = this.props.singularEvent.start.split('T');
     const endDate = this.props.singularEvent.end.split('T');
-
     
     if (when === "start") {
       return startDate[0];
@@ -33,7 +32,7 @@ export default class EditModal extends React.Component {
       <>
         <img className="edit-modal__close" src={CloseIcon} alt="" onClick={this.props.closeModal}/>
         <h2 className="edit-modal__heading">Add Event</h2>
-        <form className="edit-modal__form" onSubmit={(props) => this.props.addNewEvent(props)}>
+        <form className="edit-modal__form" onSubmit={(props) => this.props.addNewEvent(props, this.props.singularEvent)}>
           <div className="edit-modal__form-item" id="full">
             <label className="edit-modal__form-label" htmlFor="title">Title</label>
             <input className="edit-modal__form-input" defaultValue={this.props.singularEvent.title ? this.props.singularEvent.title : null} required type="text" id="title" name="title" />

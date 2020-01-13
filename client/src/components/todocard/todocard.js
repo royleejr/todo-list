@@ -12,10 +12,10 @@ export default class ToDoCard extends React.Component {
     menuIsOpen: false
   };
   
+  //add an event listener to the screen for every mouse click on first mount.
   componentDidMount() {
-      document.addEventListener("mousedown", this.handleClick);
+    document.addEventListener("mousedown", this.handleClick);
   }
-
   componentWillUnmount() {
     document.removeEventListener("mousedown", this.handleClick);
   }
@@ -24,6 +24,7 @@ export default class ToDoCard extends React.Component {
     this.setState({menuIsOpen: !this.state.menuIsOpen});
   }
 
+  //closes the menu dropdown when the click is not on the edit/delete element.
   handleClick = event => {
     console.log(this.menuRef.current)
     if (this.menuRef.current && !this.menuRef.current.contains(event.target)) {
@@ -33,11 +34,10 @@ export default class ToDoCard extends React.Component {
     }
   };
 
-
   render() {
-    console.log(this.props)
+
     const {title, status} = this.props.event
-    // console.log(this.props.event)
+
     return (
       <article className="card">
         <div className="card__date">

@@ -1,3 +1,29 @@
+@import '../../styles/variables.scss';
+
+.calendar {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &__external {
+    &-plus {
+      cursor: pointer;
+      position: absolute;
+      top: 65px;
+      right: 15px;
+      width: 10px;
+      padding: 3px;
+      background-color: white;
+      border: 1px solid $blue;
+      border-radius: 3px;
+    }
+    &-heading {
+      font-weight: bold;
+      margin: 65px 0 20px;
+    }
+  }
+}
 
 #calendar-container {
   position: relative;
@@ -7,7 +33,6 @@
 
 #calendar {
   max-width: 1000px;
-  // height: 100vh;
   width: 100%;
   margin: 0px auto;
   margin-left: 50px;
@@ -18,20 +43,18 @@
   width: 200px;
 }
 
-#draggable-el {
-  background-color: red;
-  width: 100px;
-}
-
 #external-events {
   position: relative;
   z-index: 2;
   top: 20px;
   left: 20px;
   width: 150px;
-  padding: 0 10px;
+  height: 805px;
+  padding: 0 15px;
   border: 1px solid #ccc;
+  border-radius: 3px;
   background: #eee;
+  margin: 0 0 40px 40px;
 }
 
 #external-events .fc-event {
@@ -39,18 +62,6 @@
   cursor: move;
 }
 
-#external-events {
-  // left: 280px !important;
-  position: relative !important;
-  height: 805px !important;
-  margin-bottom: 40px !important;
-  padding-top: 0px !important;
-  margin-left: 40px !important;
-}
-
-.parent {
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.fc-button-primary {
+  background-color: $dark-blue !important;
 }
