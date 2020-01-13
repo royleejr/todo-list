@@ -14,7 +14,6 @@ export default class Status extends React.Component {
   }
 
   getCards = () => {
-    console.log(this.props.events)
     const filteredArray = this.props.events.filter(item => {
       return item.status === this.state.status
     })

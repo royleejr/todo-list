@@ -7,14 +7,16 @@ import './dashboard.scss';
 export default class Dashboard extends React.Component {
 
   state = {
-      filteredEvents: this.props.events
-    };
+    filteredEvents: this.props.events
+  };
 
   //to make sure the filtered events are up to date with state in app.
-  componentDidMount () {
-    this.setState({
-      filteredEvents: this.props.events
-    })
+  componentDidUpdate (prevState) {
+    if (this.props.events !== prevState.events) {
+      this.setState({
+        filteredEvents: this.props.events
+      })
+    }
   }
 
   getToday = () => {
@@ -48,15 +50,20 @@ export default class Dashboard extends React.Component {
         filteredEvents: filteredEvents
       })
     }
+    
   }
+
+  renderRows = (array) => {
+    return array.map(item => {
+      return <EventRow event={item} key={item.id}/>
+    })
+  } 
 
   
   render() {
     return (
       <section className="dashboard">
         <button className="dashboard__open-button" onClick={this.props.openModal}>+ Add Event</button>
-        
-
         <section className="dashboard__section">
           <h1 className="dashboard__section-heading">Today's To-Do List</h1>
           <div className="dashboard__section-container">

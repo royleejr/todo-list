@@ -27,7 +27,6 @@ export default class EditModal extends React.Component {
 
 
   render() {
-    console.log('TO SEE IF MODAL WORKDS', this.props)
     return(
       <>
         <img className="edit-modal__close" src={CloseIcon} alt="" onClick={this.props.closeModal}/>

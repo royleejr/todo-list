@@ -201,7 +201,6 @@ class App extends React.Component {
     }
     else {
       const fullDate = `${year}-${month.substr(-2)}-${day.substr(-2)}T23:59:00`;
-      console.log(fullDate)
       return fullDate
     }
   }
@@ -209,11 +208,11 @@ class App extends React.Component {
 
   //put this function in app because I need the function in both status page and dashboard page.
   getToDoList = (array) => {
+    const day = new Date()
+    const options = {weekday: "long", year: "numeric", month: "long", day: "numeric"};
+    const todaysDate = day.toLocaleDateString("en-US", options)
     return array.map(item => {
       //getting todays day and the long version of the month to pass down as props to properly display in todocard.
-      const day = new Date(item.end)
-      const options = {weekday: "long", year: "numeric", month: "long", day: "numeric"};
-      const todaysDate = day.toLocaleDateString("en-US", options)
       //get just the month name
       const todayMonth = todaysDate.split(' ')[1]
       //get the day without the comma

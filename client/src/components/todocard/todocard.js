@@ -26,7 +26,6 @@ export default class ToDoCard extends React.Component {
 
   //closes the menu dropdown when the click is not on the edit/delete element.
   handleClick = event => {
-    console.log(this.menuRef.current)
     if (this.menuRef.current && !this.menuRef.current.contains(event.target)) {
         this.setState({
             menuIsOpen: false
