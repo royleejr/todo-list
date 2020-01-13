@@ -44,6 +44,10 @@ class App extends React.Component {
     singularEvent: null
   }
 
+  componentDidMount () {
+    alert('Please view the site at 1680x950 for lack of time it was built for just that screen size')
+  }
+
   addNewEvent = (event, edit) => {
 
     event.preventDefault();
@@ -92,7 +96,6 @@ class App extends React.Component {
 
     const newArray = Array.from(event);
     var newState = this.state.events;
-
     const uidMap = {};
     let finalArray = [];
     
@@ -207,18 +210,34 @@ class App extends React.Component {
 
 
   //put this function in app because I need the function in both status page and dashboard page.
-  getToDoList = (array) => {
-    const day = new Date()
-    const options = {weekday: "long", year: "numeric", month: "long", day: "numeric"};
-    const todaysDate = day.toLocaleDateString("en-US", options)
-    return array.map(item => {
-      //getting todays day and the long version of the month to pass down as props to properly display in todocard.
-      //get just the month name
-      const todayMonth = todaysDate.split(' ')[1]
-      //get the day without the comma
-      const todayDay = todaysDate.split(' ')[2].split(',')[0]
-      return <ToDoCard event={item} key={item.id} day={todayDay} month={todayMonth} deleteEvent={this.deleteEvent} openModal={this.openModal} closeModal={this.closeModal}/>
-    })
+  getToDoList = (array, status) => {
+
+    if (status) {
+      return array.map(item => {
+        const day = new Date(item.end)
+        const options = {weekday: "long", year: "numeric", month: "long", day: "numeric"};
+        const todaysDate = day.toLocaleDateString("en-US", options)
+        //getting todays day and the long version of the month to pass down as props to properly display in todocard.
+        //get just the month name
+        const todayMonth = todaysDate.split(' ')[1]
+        //get the day without the comma
+        const todayDay = todaysDate.split(' ')[2].split(',')[0]
+        return <ToDoCard event={item} key={item.id} day={todayDay} month={todayMonth} deleteEvent={this.deleteEvent} openModal={this.openModal} closeModal={this.closeModal}/>
+      })
+    }
+    else {
+      const day = new Date()
+      const options = {weekday: "long", year: "numeric", month: "long", day: "numeric"};
+      const todaysDate = day.toLocaleDateString("en-US", options)
+      return array.map(item => {
+        //getting todays day and the long version of the month to pass down as props to properly display in todocard.
+        //get just the month name
+        const todayMonth = todaysDate.split(' ')[1]
+        //get the day without the comma
+        const todayDay = todaysDate.split(' ')[2].split(',')[0]
+        return <ToDoCard event={item} key={item.id} day={todayDay} month={todayMonth} deleteEvent={this.deleteEvent} openModal={this.openModal} closeModal={this.closeModal}/>
+      })
+    }
   }
   
   openModal = (item, toggleMenu) => {

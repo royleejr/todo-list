@@ -17,7 +17,7 @@ export default class Status extends React.Component {
     const filteredArray = this.props.events.filter(item => {
       return item.status === this.state.status
     })
-    return this.props.getToDoList(filteredArray)
+    return this.props.getToDoList(filteredArray, 'status')
   }
   
   render() {
