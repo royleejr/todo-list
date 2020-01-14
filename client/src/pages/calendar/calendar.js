@@ -102,8 +102,8 @@ export default class Calendar extends React.Component {
             <img className="calendar__external-plus" src={PlusIcon} alt="" onClick={this.openModal} />
             <p className="calendar__external-heading">Favourites</p>
             {
-              this.state.favourites.map(item => {
-                return <div class='fc-event'>{item.title}</div>
+              this.state.favourites.map((item, index) => {
+                return <div className='fc-event' key={item.title + index}>{item.title}</div>
               })
             }
           </div>
