@@ -91,7 +91,6 @@ class App extends React.Component {
 
 
   addEvent = (event) => {
-
     const newArray = Array.from(event);
     var newState = this.state.events;
     const uidMap = {};
@@ -208,6 +207,7 @@ class App extends React.Component {
     }
   }
 
+  //sort the array of events by date. Earliest to latest.
   sortByDate = (array) => {
     return array.sort((first, second) => {
       return new Date(first.start) - new Date(second.start)

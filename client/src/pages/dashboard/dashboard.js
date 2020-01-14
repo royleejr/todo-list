@@ -36,9 +36,9 @@ export default class Dashboard extends React.Component {
 
   search = (event) => {
 
-  const filteredEvents = this.props.events.filter(item => {
-    return  item.title.toLowerCase().includes(event.target.value.toLowerCase())
-  })
+    const filteredEvents = this.props.events.filter(item => {
+      return  item.title.toLowerCase().includes(event.target.value.toLowerCase())
+    })
 
     if(event.target.value === "") {
       this.setState({
@@ -50,7 +50,6 @@ export default class Dashboard extends React.Component {
         filteredEvents: filteredEvents
       })
     }
-    
   }
 
   renderRows = (array) => {
@@ -87,7 +86,6 @@ export default class Dashboard extends React.Component {
             </article>
             {
               this.state.filteredEvents ? 
-              //sorting the filtered data by earliest start time first.
               this.props.sortByDate(this.state.filteredEvents).map(item => {
                 return <EventRow event={item} key={item.id}/>
               })
