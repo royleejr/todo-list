@@ -26,7 +26,7 @@ export default class Status extends React.Component {
         <h1 className="status__heading">Filter events by status</h1>
         <ul className="status__list">
           <li className={`status__list-item ${this.state.status === "Pending" ? `status__list-item--active` : null}`} onClick={this.changeStatus}>Pending</li>
-          <li className={`status__list-item ${this.state.status === "In Progress" ? `status__list-item--active` : null}`} onClick={this.changeStatus}>In progress</li>
+          <li className={`status__list-item ${this.state.status === "In progress" ? `status__list-item--active` : null}`} onClick={this.changeStatus}>In progress</li>
           <li className={`status__list-item ${this.state.status === "Complete" ? `status__list-item--active` : null}`} onClick={this.changeStatus}>Complete</li>
         </ul>
         <div className="status__cards">

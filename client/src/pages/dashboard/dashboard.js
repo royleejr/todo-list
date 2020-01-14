@@ -88,9 +88,7 @@ export default class Dashboard extends React.Component {
             {
               this.state.filteredEvents ? 
               //sorting the filtered data by earliest start time first.
-              this.state.filteredEvents.sort((a, b) => {
-                return new Date(a.start) - new Date(b.start)
-              }).map(item => {
+              this.props.sortByDate(this.state.filteredEvents).map(item => {
                 return <EventRow event={item} key={item.id}/>
               })
               : null

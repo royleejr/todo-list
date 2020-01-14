@@ -34,7 +34,7 @@ class App extends React.Component {
     events: [
     { title: "Ski Trip", start:'2020-01-07T10:30:00', end:"2020-01-10T11:30:00", status: 'Complete', id: uniqid()},
     { title: 'Read the book Design Thinking', start:'2020-01-12T10:30:00', end:"2020-01-17T20:30:00", status: 'In progress', id: uniqid()},
-    { title: 'Hackathon', start: '2020-01-15T12:00:00', end:"2020-01-22T24:00:00", status: 'Pending', id: uniqid()},
+    { title: 'Hackathon', start: '2020-01-15T12:00:00', end:"2020-01-22T23:00:00", status: 'Pending', id: uniqid()},
     { title: 'Day at the spa', start:'2020-01-11T10:30:00', end:"2020-01-11T23:00:00", status: 'In progress', id: uniqid()},
     { title: 'Clean my room', start: '2020-01-20T03:00:00', end:"2020-01-23T23:00:00", status: 'Pending', id: uniqid()},
     { title: 'Meet Johnathon', start: '2020-01-25T08:00:00', end:"2020-01-10T24:00:00", status: 'In progress', id: uniqid()},
@@ -49,7 +49,6 @@ class App extends React.Component {
   }
 
   addNewEvent = (event, edit) => {
-
     event.preventDefault();
 
     //find which radio button was checked
@@ -86,7 +85,6 @@ class App extends React.Component {
         events: newState
       })
     }
-
 
     this.closeModal()
   }
@@ -137,11 +135,13 @@ class App extends React.Component {
         newState.push({title: `${item.title}`, start: `${this.getDate(startDate)}`, end: `${this.getEndDate(item.end)}`, status: item.status, id: uniqid() })
       }
       else {
+        //find the index of the item in the array.
         const indexOfItem = newState.findIndex((element) => {
           return element.id === item.id
         })
         const oldStartTime = newState[indexOfItem].start;
         const oldEndTime = newState[indexOfItem].end;
+        //take that item out of the array for we are going to replace it.
         newState.splice(indexOfItem, 1);
         newState.push({title: `${item.title}`, start: `${this.getDate(startDate, oldStartTime)}`, end: `${this.getEndDate(item.end, oldEndTime)}`, status: item.status, id: item.id});
       }
@@ -208,13 +208,19 @@ class App extends React.Component {
     }
   }
 
+  sortByDate = (array) => {
+    return array.sort((first, second) => {
+      return new Date(first.start) - new Date(second.start)
+    })
+  }
+
 
   //put this function in app because I need the function in both status page and dashboard page.
   getToDoList = (array, status) => {
 
     if (status) {
       //for rendering ToDoCard in the status page. We want the date to be the end date of the event.
-      return array.map(item => {
+      return this.sortByDate(array).map(item => {
         const day = new Date(item.end)
         const options = {weekday: "long", year: "numeric", month: "long", day: "numeric"};
         const todaysDate = day.toLocaleDateString("en-US", options)
@@ -231,7 +237,7 @@ class App extends React.Component {
       const day = new Date()
       const options = {weekday: "long", year: "numeric", month: "long", day: "numeric"};
       const todaysDate = day.toLocaleDateString("en-US", options)
-      return array.map(item => {
+      return this.sortByDate(array).map(item => {
         //getting todays day and the long version of the month to pass down as props to properly display in todocard.
         //get just the month name
         const todayMonth = todaysDate.split(' ')[1]
@@ -261,8 +267,6 @@ class App extends React.Component {
     });
   }
 
-
-
   render() {
     return (
       <div className="flex">
@@ -278,7 +282,7 @@ class App extends React.Component {
             <EditModal closeModal={this.closeModal} addNewEvent={(props) => this.addNewEvent(props, this.state.singularEvent)} singularEvent={this.state.singularEvent}/>
           </Modal>
           <Switch>
-            <Route exact path="/" render={(props) => <Dashboard {...props} events={this.state.events} addNewEvent={this.addNewEvent} getToDoList={this.getToDoList} openModal={this.openModal}/>} />
+            <Route exact path="/" render={(props) => <Dashboard {...props} events={this.state.events} addNewEvent={this.addNewEvent} getToDoList={this.getToDoList} openModal={this.openModal} sortByDate={this.sortByDate}/>} />
             <Route exact path="/calendar" render={(props) => <Calendar {...props} events={this.state.events} addEvent={this.addEvent}/>} />
             <Route exact path="/status" render={(props) => <Status {...props} events={this.state.events} getToDoList={this.getToDoList}/>} />
           </Switch>
