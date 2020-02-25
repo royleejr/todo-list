@@ -56,7 +56,7 @@ export default class EditModal extends React.Component {
             <span className="edit-modal__form-label">Status</span>
             <input type="radio" id="pending" name="status" value="Pending" defaultChecked={this.props.singularEvent.status === "Pending" ? true : false}/>
             <label className="edit-modal__form-radio" htmlFor="pending" >Pending</label>
-            <input type="radio" id="in-progress" name="status" value="In Progress" defaultChecked={this.props.singularEvent.status === "In progress" ? true : false}/>
+            <input type="radio" id="in-progress" name="status" value="In progress" defaultChecked={this.props.singularEvent.status === "In progress" ? true : false}/>
             <label className="edit-modal__form-radio" htmlFor="in-progress">In progress</label>
             <input type="radio" id="complete" name="status" value="Complete" defaultChecked={this.props.singularEvent.status === "Complete" ? true : false}/>
             <label className="edit-modal__form-radio" htmlFor="complete">Complete</label>

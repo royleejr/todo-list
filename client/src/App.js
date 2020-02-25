@@ -128,7 +128,7 @@ class App extends React.Component {
       return finalArray
     })
 
-    finalArray.map( (item, index) => {
+    finalArray.map(item => {
       const startDate = new Date(item.start);
       if (item.id === 'none') {
         newState.push({title: `${item.title}`, start: `${this.getDate(startDate)}`, end: `${this.getEndDate(item.end)}`, status: item.status, id: uniqid() })
