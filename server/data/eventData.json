@@ -1,0 +1,51 @@
+[
+  {
+    "title": "Ski Trip",
+    "start": "2020-01-07T10:30:00",
+    "end": "2020-01-10T11:30:00",
+    "status": "Complete",
+    "id": "2jdnfeijrv39rur03vjr4jr"
+  },
+  {
+    "title": "Read the book Design Thinking",
+    "start": "2020-01-12T10:30:00",
+    "end": "2020-01-17T20:30:00",
+    "status": "In progress",
+    "id": "jk3hkjnn2lnndd9fs0sfndjf"
+  },
+  {
+    "title": "Hackathon",
+    "start": "2020-01-15T12:00:00",
+    "end": "2020-01-22T23:00:00",
+    "status": "Pending",
+    "id": "09dhksud9sndjfjksjdsjkd"
+  },
+  {
+    "title": "Day at the spa",
+    "start": "2020-01-11T10:30:00",
+    "end": "2020-01-11T23:00:00",
+    "status": "In progress",
+    "id": "12kh49f0sndkdjklsjgjld"
+  },
+  {
+    "title": "Clean my room",
+    "start": "2020-01-20T03:00:00",
+    "end": "2020-01-23T23:00:00",
+    "status": "Pending",
+    "id": "989suksnfdkfkjfd0s0sldfd"
+  },
+  {
+    "title": "Meet Johnathon",
+    "start": "2020-01-25T08:00:00",
+    "end": "2020-01-10T24:00:00",
+    "status": "In progress",
+    "id": "j234hlfsk0dvsmsldfodfdfd"
+  },
+  {
+    "title": "Create my portfolio site",
+    "start": "2020-01-31T23:00:00",
+    "end": "2020-02-07T11:30:00",
+    "status": "In progress",
+    "id": "0d9f9suf8sfbdn3d8d8cnjd"
+  }
+]

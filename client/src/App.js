@@ -1,7 +1,8 @@
 import React from 'react';
 import Modal from 'react-modal';
 import uniqid from 'uniqid';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import axios from 'axios';
+import { BrowserRouter, Route, Switch} from 'react-router-dom';
 
 import Nav from './components/nav/nav';
 import Dashboard from './pages/dashboard/dashboard';
@@ -31,21 +32,25 @@ class App extends React.Component {
   containerRef = React.createRef()
 
   state = {
-    events: [
-    { title: "Ski Trip", start:'2020-01-07T10:30:00', end:"2020-01-10T11:30:00", status: 'Complete', id: uniqid()},
-    { title: 'Read the book Design Thinking', start:'2020-01-12T10:30:00', end:"2020-01-17T20:30:00", status: 'In progress', id: uniqid()},
-    { title: 'Hackathon', start: '2020-01-15T12:00:00', end:"2020-01-22T23:00:00", status: 'Pending', id: uniqid()},
-    { title: 'Day at the spa', start:'2020-01-11T10:30:00', end:"2020-01-11T23:00:00", status: 'In progress', id: uniqid()},
-    { title: 'Clean my room', start: '2020-01-20T03:00:00', end:"2020-01-23T23:00:00", status: 'Pending', id: uniqid()},
-    { title: 'Meet Johnathon', start: '2020-01-25T08:00:00', end:"2020-01-10T24:00:00", status: 'In progress', id: uniqid()},
-    { title: 'Create my portfolio site', start: '2020-01-31T23:00:00', end:"2020-02-07T11:30:00", status: 'In progress', id: uniqid()}
-    ],
+    events: [],
     modalIsOpen: false,
     singularEvent: null
   }
 
   componentDidMount () {
     alert('Due to time constraints, the site was built for the exact screen dimensions of 1680 x 950. Please view the site at these dimensions.')
+
+    this.getEvents()
+  }
+
+  //get the data and set it to state
+  getEvents = () => {
+    axios.get('http://localhost:8080/event')
+    .then(response => {
+      this.setState({
+        events: response.data
+      })
+    })
   }
 
   addNewEvent = (event, edit) => {
@@ -75,14 +80,29 @@ class App extends React.Component {
       this.setState({
         events: newState
       })
+
+      // axios.post('http://localhost:8080/event', newEvent)
+      // .then(response => {
+        // console.log(response.data)
+        // this.setState({
+        //   events: response.data
+        // })
+      // })
     }
 
     else {
-      const newEvent = [{ title: `${title}`, start: startDate, end: endDate, status: `${checked}`, id: uniqid()}]
-      const newState = [...this.state.events, ...newEvent ]
+      const newEvent = { title: `${title}`, start: startDate, end: endDate, status: `${checked}`, id: uniqid()}
+      // const newState = [...this.state.events, ...newEvent ]
 
-      this.setState({
-        events: newState
+      // this.setState({
+      //   events: newState
+      // })
+
+      axios.post('http://localhost:8080/event', newEvent)
+      .then(response => {
+        this.setState({
+          events: response.data
+        })
       })
     }
 

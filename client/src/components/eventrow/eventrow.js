@@ -12,16 +12,17 @@ export default class EventRow extends React.Component {
   }
 
   getTime = (date) => {
-    //get just the time from the date
-    const dateArray = date.split('T');
-    //change 24 hour time to 12 hour time
-    if (dateArray[1].substring(0,2) > 12) {
-      const first = dateArray[1].substring(0,2) - 12;
-      return `${first}:${dateArray[1].substring(3,5)}pm`
-    }
-    else {
-      return `${dateArray[1].substring(0,5)}am`
-
+    if (date) {
+      //get just the time from the date
+      const dateArray = date.split('T');
+      //change 24 hour time to 12 hour time
+      if (dateArray[1].substring(0,2) > 12) {
+        const first = dateArray[1].substring(0,2) - 12;
+        return `${first}:${dateArray[1].substring(3,5)}pm`
+      }
+      else {
+        return `${dateArray[1].substring(0,5)}am`
+      }
     }
   }
 
